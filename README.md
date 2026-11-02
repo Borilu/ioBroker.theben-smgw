@@ -42,7 +42,7 @@ The first poll occurs at startup, with subsequent polls no sooner than 15 minute
 
 ## Development and testing
 
-Requires Node.js 22 or newer, js-controller 6.0.11 or newer and Admin 7.6.17 or newer. Run `node --test test/*.test.js` from the adapter directory for local tests, including mocked profile processing and an HTTPS/Digest test server. The test certificate and key are synthetic fixtures, not gateway credentials. The repository also contains ioBroker package and integration tests.
+Requires Node.js 22 or newer, js-controller 6.0.11 or newer and Admin 7.6.20 or newer. Run `node --test test/*.test.js` from the adapter directory for local tests, including mocked profile processing and an HTTPS/Digest test server. The test certificate and key are synthetic fixtures, not gateway credentials. The repository also contains ioBroker package and integration tests.
 
 The implementation is informed by the [Home Assistant Theben CONEXA integration](https://www.home-assistant.io/integrations/theben_conexa/) and its [Python client library](https://gitlab.com/michael.dluhosch/theben-conexa-smgw). The library obtains `scaler` and `unit` from `usage-point-info`. Unlike the library, this adapter processes all active profiles. The default M2M path has been tested with one gateway; other configurations have not yet been verified.
 
@@ -58,4 +58,6 @@ The implementation is informed by the [Home Assistant Theben CONEXA integration]
 
 ## License
 
-MIT License. Copyright (c) 2026 Borilu <borilu@fn.de> and contributors. See [LICENSE](LICENSE) for the full text.
+MIT License. See [LICENSE](LICENSE) for the full text.
+
+Copyright (c) 2026 Borilu <borilu@fn.de> and contributors.

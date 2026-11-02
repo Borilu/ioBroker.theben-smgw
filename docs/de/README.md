@@ -27,7 +27,7 @@ Die Abfrage erfolgt beim Start und anschließend frühestens 15 Minuten nach Abs
 
 ## Technische Voraussetzungen und Test
 
-Node.js ab Version 22, js-controller ab 6.0.11 und Admin ab 7.6.17. Für den unabhängigen Code-Test im entpackten Adapter-Verzeichnis `node --test test/*.test.js` ausführen. Das Testzertifikat und der Testschlüssel im Ordner `test` dienen nur dem lokalen Testserver und sind keine Zugangsdaten des Gateways.
+Node.js ab Version 22, js-controller ab 6.0.11 und Admin ab 7.6.20. Für den unabhängigen Code-Test im entpackten Adapter-Verzeichnis `node --test test/*.test.js` ausführen. Das Testzertifikat und der Testschlüssel im Ordner `test` dienen nur dem lokalen Testserver und sind keine Zugangsdaten des Gateways.
 
 Die Implementierung orientiert sich an den veröffentlichten Schnittstelleninformationen der [Theben-Conexa-Home-Assistant-Integration](https://www.home-assistant.io/integrations/theben_conexa/) und der [zugehörigen Python-Bibliothek](https://gitlab.com/michael.dluhosch/theben-conexa-smgw). Die Bibliothek liest `scaler` und `unit` über `usage-point-info`; Einheit 30 steht für Wh, 26 für J. Anders als die Bibliothek fragt dieser Adapter alle aktiven Profile ab. Der direkte M2M-Pfad `/smgw/m2m/<HAN-Benutzername>.sm/json` wurde mit einem Gateway getestet; andere Gateway-Konfigurationen wurden nicht geprüft.
 

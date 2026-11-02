@@ -23,7 +23,7 @@
     "dataSource": "poll",
     "adminUI": { "config": "json" },
     "dependencies": [ { "js-controller": ">=6.0.11" } ],
-    "globalDependencies": [ { "admin": ">=7.6.17" } ]
+    "globalDependencies": [ { "admin": ">=7.6.20" } ]
   },
   "encryptedNative": ["password"],
   "protectedNative": ["password"],
