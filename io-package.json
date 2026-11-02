@@ -1,8 +1,9 @@
 {
   "common": {
     "name": "theben-smgw",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "news": {
+      "0.3.2": { "en": "Improve release verification", "de": "Überprüfung der Veröffentlichung verbessert", "ru": "Улучшена проверка публикации", "pt": "Melhorada a verificação da publicação", "nl": "Verbeterde verificatie van de publicatie", "fr": "Vérification de publication améliorée", "it": "Migliorata la verifica della pubblicazione", "es": "Mejorada la verificación de la publicación", "pl": "Ulepszono weryfikację publikacji", "uk": "Покращено перевірку публікації", "zh-cn": "改进发布验证" },
       "0.3.1": { "en": "Improve compatibility with the ioBroker adapter repository", "de": "Kompatibilität mit dem ioBroker-Adapterverzeichnis verbessert", "ru": "Улучшена совместимость с каталогом адаптеров ioBroker", "pt": "Melhor compatibilidade com o catálogo de adaptadores ioBroker", "nl": "Verbeterde compatibiliteit met de ioBroker-adaptercatalogus", "fr": "Compatibilité améliorée avec le catalogue d'adaptateurs ioBroker", "it": "Migliorata la compatibilità con il catalogo degli adattatori ioBroker", "es": "Mejor compatibilidad con el catálogo de adaptadores ioBroker", "pl": "Poprawiono zgodność z katalogiem adapterów ioBroker", "uk": "Покращено сумісність із каталогом адаптерів ioBroker", "zh-cn": "改进与 ioBroker 适配器目录的兼容性" },
       "0.3.0": { "en": "Initial public beta", "de": "Erste öffentliche Betaversion", "ru": "Первая общедоступная бета-версия", "pt": "Primeira versão beta pública", "nl": "Eerste openbare bètaversie", "fr": "Première version bêta publique", "it": "Prima versione beta pubblica", "es": "Primera versión beta pública", "pl": "Pierwsza publiczna wersja beta", "uk": "Перша публічна бета-версія", "zh-cn": "首个公开测试版" }
     },

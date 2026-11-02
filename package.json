@@ -1,6 +1,6 @@
 {
   "name": "iobroker.theben-smgw",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Read a Theben CONEXA smart meter gateway locally",
   "author": "Borilu <borilu@fn.de>",
   "repository": { "type": "git", "url": "https://github.com/Borilu/ioBroker.theben-smgw.git" },

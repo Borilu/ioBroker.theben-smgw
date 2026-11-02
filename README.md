@@ -48,6 +48,10 @@ The implementation is informed by the [Home Assistant Theben CONEXA integration]
 
 ## Changelog
 
+### 0.3.2
+
+- Improve release verification for the official ioBroker repository.
+
 ### 0.3.1
 
 - Improve documentation, adapter metadata and compatibility with the official ioBroker repository checks.

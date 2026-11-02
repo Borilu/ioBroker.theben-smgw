@@ -33,6 +33,10 @@ Die Implementierung orientiert sich an den veröffentlichten Schnittstelleninfor
 
 ## Changelog
 
+### 0.3.2
+
+- Überprüfung der Veröffentlichung für das offizielle ioBroker-Verzeichnis verbessert.
+
 ### 0.3.1
 
 - Dokumentation, Adapter-Metadaten und Kompatibilität mit den Prüfungen des offiziellen ioBroker-Verzeichnisses verbessert.
