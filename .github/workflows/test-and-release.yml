@@ -5,6 +5,10 @@ on:
     branches:
       - main
     tags:
+      # These two patterns are required by the ioBroker repository checker.
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-**'
+      # GitHub uses globs, not regular expressions; this pattern matches v0.3.2.
       - 'v[0-9]*.[0-9]*.[0-9]*'
   pull_request: {}
   workflow_dispatch:
