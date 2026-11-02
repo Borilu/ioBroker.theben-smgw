@@ -1,0 +1,16 @@
+{
+  "i18n": true,
+  "type": "panel",
+  "items": {
+    "host": { "type": "text", "label": "Gateway-IP oder Hostname", "sm": 6 },
+    "port": { "type": "number", "label": "HTTPS-Port", "min": 1, "max": 65535, "sm": 3 },
+    "username": { "type": "text", "label": "HAN-Benutzername", "sm": 6 },
+    "password": { "type": "password", "label": "HAN-Passwort / PIN", "sm": 6 },
+    "m2mPath": { "type": "text", "label": "M2M-Pfad (optional, leer für Standardpfad)", "sm": 12 },
+    "verifyTls": { "type": "checkbox", "label": "Standardprüfung von Zertifikatskette und Hostname (nur ohne Fingerabdruck)", "sm": 12 },
+    "certificateFingerprint": { "type": "text", "label": "SHA-256-Zertifikat-Fingerabdruck (optional, nur unabhängig bestätigt)", "sm": 12 },
+    "fingerprintNotice": { "type": "staticText", "text": "Ein eingetragener Fingerabdruck hat Vorrang und wird unabhängig vom Haken geprüft. Nur einen unabhängig bestätigten Fingerabdruck verwenden. Ohne Fingerabdruck und ohne Haken wird die Identität des Gateways nicht geprüft.", "sm": 12 },
+    "intervalMinutes": { "type": "number", "label": "Abfrageintervall in Minuten (mindestens 15)", "min": 15, "max": 1440, "sm": 6 },
+    "notice": { "type": "staticText", "text": "Für weitere HAN-Zugänge eine zusätzliche Adapter-Instanz anlegen. Messwerte werden alle 15 Minuten aktualisiert.", "sm": 12 }
+  }
+}

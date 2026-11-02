@@ -1,0 +1,25 @@
+{
+  "common": {
+    "name": "theben-smgw",
+    "version": "0.3.0-beta.0",
+    "titleLang": { "en": "Theben CONEXA SMGW", "de": "Theben CONEXA SMGW" },
+    "desc": { "en": "Read the local Theben CONEXA HAN interface", "de": "Lokale Theben-CONEXA-HAN-Schnittstelle auslesen" },
+    "authors": ["Borilu"],
+    "licenseInformation": { "type": "free", "license": "MIT" },
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "type": "energy",
+    "icon": "theben-smgw.svg",
+    "enabled": true,
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": { "config": "json" },
+    "dependencies": [ { "js-controller": ">=4.0.0" } ],
+    "globalDependencies": [ { "admin": ">=6.0.0" } ]
+  },
+  "encryptedNative": ["password"],
+  "protectedNative": ["password"],
+  "native": { "host": "", "port": 443, "username": "", "password": "", "m2mPath": "", "verifyTls": true, "certificateFingerprint": "", "intervalMinutes": 15 },
+  "objects": []
+}
