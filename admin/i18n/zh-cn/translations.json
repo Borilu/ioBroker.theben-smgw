@@ -1,0 +1,12 @@
+{
+  "Gateway IP or hostname": "网关 IP 地址或主机名",
+  "HTTPS port": "HTTPS 端口",
+  "HAN username": "HAN 用户名",
+  "HAN password / PIN": "HAN 密码 / PIN",
+  "M2M path (optional, leave blank for default)": "M2M 路径（可选，留空使用默认路径）",
+  "Standard certificate chain and hostname verification (only without fingerprint)": "标准证书链和主机名验证（仅在没有指纹时使用）",
+  "SHA-256 certificate fingerprint (optional, independently verified only)": "证书 SHA-256 指纹（可选，仅使用经独立确认的指纹）",
+  "A configured fingerprint takes precedence over the checkbox. Use only an independently verified fingerprint. With neither option enabled, the gateway identity is not verified.": "配置的指纹优先于复选框。请仅使用经独立确认的指纹。如果两项均未启用，则不会验证网关身份。",
+  "Polling interval in minutes (minimum 15)": "轮询间隔（分钟，至少 15）",
+  "Create a separate adapter instance for each additional HAN account. Meter readings are updated every 15 minutes.": "每个额外的 HAN 账户请创建一个单独的实例。读数每 15 分钟更新一次。"
+}

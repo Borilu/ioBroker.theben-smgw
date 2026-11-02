@@ -1,48 +1,61 @@
-# Theben CONEXA 3.0 für ioBroker – Testversion
+# Theben CONEXA 3.0 Smart Meter Gateway
 
-Dieser Adapter liest die lokale HTTPS/M2M-Schnittstelle des Theben CONEXA 3.0. Er ist eine **Testversion**: Die Digest-Anmeldung und die Verarbeitung wurden mit einem lokalen Testserver und einem CONEXA-3.0-Gateway geprüft; andere Installationen können abweichen. Für die Inbetriebnahme muss das Gateway aus der ioBroker-Umgebung erreichbar sein.
+This beta adapter reads the local HAN HTTPS/JSON M2M interface of a [Theben CONEXA 3.0 smart meter gateway](https://www.theben.de/service/fachpresse/sicherer-rollout-theben-erhaelt-bsi-zertifizierung-fuer-das-smart-meter-gateway-conexa-3-0-performance/). It uses HTTP Digest authentication and does not depend on Home Assistant or a cloud service. It has been tested with a local mock server and one CONEXA 3.0 installation; other gateway configurations and firmware versions remain unverified.
 
-Aktuell ist der Adapter als Beta gedacht und noch nicht Teil des offiziellen ioBroker-Adapterverzeichnisses. Nach der Veröffentlichung ist das Paket unter `iobroker.theben-smgw` verfügbar.
+[German documentation](docs/de/README.md)
 
-## Einrichtung
+This is a beta release and is not yet part of the official ioBroker adapter repository. The npm package is `iobroker.theben-smgw`.
 
-1. Die ioBroker-VM muss die HAN-Adresse über das richtige Netz erreichen. Bei überlappenden Netzen insbesondere zuerst die konkrete Route prüfen. Netzwerkänderungen nur passend zur tatsächlich verwendeten VM und Netzwerkkonfiguration durchführen.
-2. Das Paket in ioBroker installieren. Je nach Admin-Version ist im Adapter-Bereich unter „Installation aus eigener Quelle“ die Installation aus einer lokalen Paketdatei möglich. Alternativ ist eine Installation mit npm im ioBroker-Verzeichnis und anschließender Instanzerstellung möglich. Die genauen Schritte richten sich nach dem ioBroker-System und dem gewählten Paketformat.
-3. Eine Instanz konfigurieren: die vom Betreiber mitgeteilte Gateway-IP beziehungsweise den Hostnamen, HTTPS-Port, HAN-Benutzernamen und das HAN-Passwort lokal im Passwortfeld eintragen. Das Passwort nicht in Befehle oder Logs kopieren. ioBroker verschlüsselt und schützt das Passwortfeld über `encryptedNative` und `protectedNative`. Das Feld M2M-Pfad zunächst leer lassen; dann wird der Standardpfad aus dem Benutzernamen gebildet. Falls erforderlich, kann ein anderer relativer Pfad unter `/smgw/m2m/` eingetragen werden; er wird nur auf dem konfigurierten Gateway aufgerufen.
-4. Die **Standardprüfung von Zertifikatskette und Hostname** ist standardmäßig eingeschaltet und gilt, solange kein Fingerabdruck eingetragen ist. Ein selbstsigniertes oder für die konfigurierte IP ungültiges Zertifikat wird dadurch abgelehnt. Für ein Gateway mit selbstsigniertem Zertifikat kann stattdessen der **unabhängig bestätigte SHA-256-Fingerabdruck des Serverzertifikats** im dafür vorgesehenen Feld eingetragen werden. Ein eingetragener Fingerabdruck hat Vorrang: Der Adapter prüft das exakte Zertifikat und dessen Gültigkeitszeitraum, unabhängig vom Haken für die Standardprüfung. Zertifikatskette und Gateway-Hostname werden in diesem Fall nicht zusätzlich geprüft. Die Prüfung erfolgt bei jedem neuen TLS-Verbindungsaufbau, bevor Anmeldedaten oder Anfragen übertragen werden; bei Abweichung oder abgelaufenem Zertifikat wird die Verbindung abgebrochen. Der Betreiber sollte den Fingerabdruck oder das Zertifikat über einen unabhängigen vertrauenswürdigen Weg bestätigen. Ein Fingerabdruck, der lediglich über die ungeprüfte Verbindung selbst abgelesen wird, beweist die Echtheit nicht. Bei Erneuerung des Zertifikats muss der neue Fingerabdruck unabhängig bestätigt und aktualisiert werden.
+## Setup
 
-   Ist weder ein Fingerabdruck hinterlegt noch die Standardprüfung eingeschaltet, bleibt die TLS-Verbindung verschlüsselt, aber die Identität der Gegenstelle wird nicht geprüft. Ein ungültig formatierter Fingerabdruck führt zu einem Fehler; es erfolgt kein Fallback auf eine andere Prüfung. Eine vorhandene Konfiguration ohne Fingerabdruck behält ihr bisheriges Verhalten.
-5. Vor dem Start die Home-Assistant-Integration für denselben Zugang pausieren, um gleichzeitige Abrufe und eine mögliche Sperre des Gateways zu vermeiden. Die ioBroker-Instanz starten und unter Objekte nach `theben-smgw.0.info.connection` und `theben-smgw.0.profiles` suchen. In der Protokollansicht stehen Verbindungshinweise; das Passwort wird nicht ausgegeben.
-6. Falls weitere Zugangsdaten bereitgestellt werden, eine zusätzliche Instanz für jeden Zugang anlegen. Dieselben Zugangsdaten nicht mehrfach parallel abfragen.
+1. Ensure the ioBroker host can reach the gateway's HAN address. If networks overlap, check the precise route to the gateway and adapt the host's networking to the actual environment.
+2. Install the adapter and create an instance in ioBroker. If your Admin version supports installing from a local package, the corresponding option is available in the adapter installation dialog.
+3. Enter the gateway address or hostname, HTTPS port, HAN username and password supplied by the gateway operator. Enter the password only in the ioBroker password field; do not put it in commands or logs. ioBroker encrypts and protects the field using `encryptedNative` and `protectedNative`.
+4. Leave the optional M2M path empty to use `/smgw/m2m/<HAN-username>.sm/json`. If your operator supplies a different path, enter a relative path under `/smgw/m2m/`; requests remain on the configured gateway.
+5. Configure server identity verification as described below. Pause other integrations polling the same account before testing, to avoid simultaneous requests and a possible gateway lockout.
+6. Start the instance. Under **Objects**, inspect `theben-smgw.0.info.connection` and `theben-smgw.0.profiles`. The log provides status information without printing the password.
+7. For additional credentials, create a separate adapter instance for each account. Do not poll the same credentials simultaneously from several instances.
 
-## Abruf und Datenpunkte
+## Gateway certificate verification
 
-Die Nutzungsprofile werden über `user-info` erkannt. Profile mit bekanntem Status `running` sowie Profile ohne Statusangabe werden einzeln und nacheinander abgefragt: erst `usage-point-info` für Metadaten, danach `readings` für den letzten Origin-Wert. Ist der Status bekannt und nicht `running`, wird das Profil ausgelassen; der Datenpunkt `status` eines bereits zuvor erkannten Profils wird entsprechend aktualisiert. Die Signatur wird nicht auf Gültigkeit geprüft. Jeder Zugang sieht ausschließlich die Profile, die der Messstellenbetreiber dafür freigegeben hat. Fehlende Einspeisekanäle oder Zähler können nicht durch diesen Adapter freigeschaltet werden.
+The standard certificate-chain and hostname check is enabled by default when the fingerprint field is empty. A self-signed certificate or a certificate not valid for the configured address will be rejected.
 
-Die Daten liegen unter `profiles.p_<Kennung>.c_<Kennung>`. Die Kennungen werden stabil aus Usage-Point-ID und OBIS-Code abgeleitet. Jedes Profil enthält `usagePointId`, `taf` und `status`. Jeder sichtbare Kanal enthält `obis`, `meter`, `raw` und `captureTime`. Wenn vom Gateway Kanalmetadaten geliefert werden, enthält er zusätzlich `scaler` und `unitCode`. Bekannte OBIS-Codes `0100010800ff` und `0100020800ff` werden als Bezug 1.8.0 und Einspeisung 2.8.0 bezeichnet; unbekannte Codes werden ebenfalls angezeigt.
+Alternatively, enter the server certificate's **SHA-256 fingerprint confirmed through an independent trusted channel**. A configured fingerprint takes precedence over the standard verification checkbox: the adapter checks the exact certificate and its validity period, but does not additionally verify its CA chain or hostname. Each new TLS connection is checked before any request or Digest authentication header is sent. A mismatch or expired certificate terminates the connection.
 
-Ein numerischer Datenpunkt `value` wird nur erzeugt, wenn Skalierung und Einheit erkannt werden und der Rohwert im sicher darstellbaren Zahlenbereich liegt. Die Berechnung ist **Rohwert × 10^scaler**. Die bekannten Einheitencodes 30 (Wh) und 26 (J) werden unterstützt. Bei fehlenden oder unbekannten Metadaten bleibt der Rohwert verfügbar; ein älterer `value` wird auf `null` gesetzt. Schlägt der Metadatenabruf fehl, wird die Abfrage der Rohwerte trotzdem versucht und `info.connection` auf falsch gesetzt. Zahlen in ioBroker sind Fließkommazahlen: Für die exakte Nachvollziehbarkeit den Rohwert zusammen mit `scaler` und `unitCode` verwenden. Zeigt das Gateway einen Kanal später nicht mehr an oder ist dessen Profil nicht mehr aktiv, bleiben bisherige Objekte und Werte bestehen; deshalb immer auch Profilstatus, `captureTime` und `info.connection` beachten.
+Ask the gateway operator to confirm the fingerprint or certificate through an independently trusted channel. A fingerprint obtained solely over the unchecked connection does not prove the gateway's identity. When the gateway certificate is renewed, independently confirm and configure its new fingerprint.
 
-Die Abfrage erfolgt beim Start und anschließend frühestens 15 Minuten nach Abschluss der letzten Abfrage. Keine Echtzeitwerte: Das Gateway liefert typischerweise nur alle 15 Minuten neue Messwerte. Fehler pro Profil werden protokolliert; sind Profile fehlgeschlagen, ist `info.connection` falsch, auch wenn andere Profile erfolgreich gelesen wurden.
+If neither a fingerprint nor the standard check is enabled, the TLS connection remains encrypted but the peer's identity is not verified. An incorrectly formatted fingerprint causes an error; the adapter does not silently fall back to another mode. Existing configurations without a fingerprint keep their previous behavior.
 
-## Technische Voraussetzungen und Test
+## Readings and datapoints
 
-Node.js ab Version 18, js-controller ab 4 und Admin ab 6. Für den unabhängigen Code-Test im entpackten Adapter-Verzeichnis `node --test test/*.test.js` ausführen. Das Testzertifikat und der Testschlüssel im Ordner `test` dienen nur dem lokalen Testserver und sind keine Zugangsdaten des Gateways.
+The adapter discovers usage points using `user-info`. It processes profiles with status `running`, plus profiles without a status, individually and sequentially: it requests `usage-point-info` for channel metadata and then `readings` for the latest origin reading. Profiles known not to be running are skipped; the `status` of an already discovered profile is updated. Reading signatures are not verified.
 
-Die Implementierung orientiert sich an den veröffentlichten Schnittstelleninformationen der [Theben-Conexa-Home-Assistant-Integration](https://www.home-assistant.io/integrations/theben_conexa/) und der [zugehörigen Python-Bibliothek](https://gitlab.com/michael.dluhosch/theben-conexa-smgw). Die Bibliothek liest `scaler` und `unit` über `usage-point-info`; Einheit 30 steht für Wh, 26 für J. Anders als die Bibliothek fragt dieser Adapter alle aktiven Profile ab. Der direkte M2M-Pfad `/smgw/m2m/<HAN-Benutzername>.sm/json` wurde mit einem Gateway getestet; andere Gateway-Konfigurationen wurden nicht geprüft.
+Each account can access only profiles made available by the meter operator. The adapter cannot enable missing meters or feed-in channels.
+
+Objects are created under `profiles.p_<id>.c_<id>`; the identifiers are stable hashes of the usage-point ID and OBIS code. Each profile provides `usagePointId`, `taf` and `status`. Each channel provides `obis`, `meter`, `raw` and `captureTime`, plus `scaler` and `unitCode` when metadata is available. OBIS codes `0100010800ff` and `0100020800ff` are named import 1.8.0 and export 2.8.0; other returned codes are also exposed.
+
+The numeric `value` is created only when the scale and unit are supported and the raw number fits the safe numeric range. It is calculated as **raw value × 10^scaler**. Unit code 30 means Wh and 26 means J. If metadata is missing or unsupported, the raw reading remains available and an older scaled value is set to `null`. If the metadata request fails, the adapter still attempts to fetch raw values, but marks `info.connection` false.
+
+ioBroker numbers are floating-point values. For exact traceability, retain `raw` together with `scaler` and `unitCode`. If a channel disappears or a profile becomes inactive, earlier objects and values remain: check the profile status, `captureTime` and `info.connection` before using them.
+
+The first poll occurs at startup, with subsequent polls no sooner than 15 minutes after the preceding poll finishes. These are not live power readings: the gateway typically provides new energy readings every 15 minutes. A failed profile is logged and sets `info.connection` false even if another profile succeeded.
+
+## Development and testing
+
+Requires Node.js 22 or newer, js-controller 6.0.11 or newer and Admin 7.6.17 or newer. Run `node --test test/*.test.js` from the adapter directory for local tests, including mocked profile processing and an HTTPS/Digest test server. The test certificate and key are synthetic fixtures, not gateway credentials. The repository also contains ioBroker package and integration tests.
+
+The implementation is informed by the [Home Assistant Theben CONEXA integration](https://www.home-assistant.io/integrations/theben_conexa/) and its [Python client library](https://gitlab.com/michael.dluhosch/theben-conexa-smgw). The library obtains `scaler` and `unit` from `usage-point-info`. Unlike the library, this adapter processes all active profiles. The default M2M path has been tested with one gateway; other configurations have not yet been verified.
 
 ## Changelog
 
-- **0.3.0**: First public beta; local M2M readings, multiple instances, clear certificate verification settings, optional certificate pinning and automated tests.
+### 0.3.1
 
-## English
+- Improve documentation, adapter metadata and compatibility with the official ioBroker repository checks.
 
-This beta adapter reads the local HAN HTTPS/JSON interface of a [Theben CONEXA 3.0](https://www.theben.de/service/fachpresse/sicherer-rollout-theben-erhaelt-bsi-zertifizierung-fuer-das-smart-meter-gateway-conexa-3-0-performance/) smart meter gateway using HTTP Digest authentication. It has been exercised against a local mock server and one real CONEXA 3.0 installation; other gateway configurations and firmware versions remain unverified.
+### 0.3.0
 
-The ioBroker host must have network access to the gateway's HAN address. In the adapter instance settings, enter the address, HTTPS port and HAN username and password supplied by the operator. Enter the password only in ioBroker's password field. The optional M2M path defaults to `/smgw/m2m/<HAN-username>.sm/json`; use a custom relative path under `/smgw/m2m/` only when required. Use a separate adapter instance for each set of credentials. Pause another integration polling the same credentials before testing to avoid simultaneous requests.
+- First public beta with local M2M readings, multiple instances, clear certificate verification settings, optional certificate pinning and automated tests.
 
-The TLS checkbox enables normal certificate-chain and hostname verification when the fingerprint field is empty. Alternatively, enter the gateway certificate's SHA-256 fingerprint **confirmed through an independent trusted channel**. A configured fingerprint takes precedence over the checkbox: the adapter checks the exact certificate and its validity period, but does not perform separate chain or hostname validation. With neither verification option enabled, TLS encrypts traffic without authenticating the gateway. Certificate renewal requires a newly confirmed fingerprint.
+## License
 
-Available active usage points are discovered through `user-info`. Each returned channel is exposed under `profiles` with its OBIS code, raw value, meter ID and capture time. When supported metadata is available, `value` is computed as `raw × 10^scaler`; supported unit codes are 30 (Wh) and 26 (J). The adapter does not verify reading signatures. Existing channel values may remain visible if a channel disappears; inspect the capture time, profile status and `info.connection`. Missing meters or channels must be enabled by the operator and cannot be created by the adapter. Polling occurs on startup and at intervals of at least 15 minutes.
-
-Run the local test suite with `node --test test/*.test.js`. It includes mocked profile handling and an HTTPS/Digest test server. The test certificate and private key are synthetic fixtures, not gateway credentials.
+MIT License. Copyright (c) 2026 Borilu <borilu@fn.de> and contributors. See [LICENSE](LICENSE) for the full text.

@@ -1,0 +1,12 @@
+{
+  "Gateway IP or hostname": "IP ou nome do gateway",
+  "HTTPS port": "Porta HTTPS",
+  "HAN username": "Nome de utilizador HAN",
+  "HAN password / PIN": "Palavra-passe / PIN HAN",
+  "M2M path (optional, leave blank for default)": "Caminho M2M (opcional, vazio para o padrão)",
+  "Standard certificate chain and hostname verification (only without fingerprint)": "Verificação padrão da cadeia de certificados e do nome do servidor (apenas sem impressão digital)",
+  "SHA-256 certificate fingerprint (optional, independently verified only)": "Impressão digital SHA-256 do certificado (opcional, apenas verificada independentemente)",
+  "A configured fingerprint takes precedence over the checkbox. Use only an independently verified fingerprint. With neither option enabled, the gateway identity is not verified.": "Uma impressão digital configurada tem prioridade sobre a caixa de seleção. Use apenas uma impressão digital verificada de forma independente. Sem ambas as opções, a identidade do gateway não é verificada.",
+  "Polling interval in minutes (minimum 15)": "Intervalo de consulta em minutos (mínimo 15)",
+  "Create a separate adapter instance for each additional HAN account. Meter readings are updated every 15 minutes.": "Crie uma instância separada para cada conta HAN adicional. As leituras são atualizadas a cada 15 minutos."
+}

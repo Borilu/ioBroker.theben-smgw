@@ -2,15 +2,15 @@
   "i18n": true,
   "type": "panel",
   "items": {
-    "host": { "type": "text", "label": "Gateway-IP oder Hostname", "sm": 6 },
-    "port": { "type": "number", "label": "HTTPS-Port", "min": 1, "max": 65535, "sm": 3 },
-    "username": { "type": "text", "label": "HAN-Benutzername", "sm": 6 },
-    "password": { "type": "password", "label": "HAN-Passwort / PIN", "sm": 6 },
-    "m2mPath": { "type": "text", "label": "M2M-Pfad (optional, leer für Standardpfad)", "sm": 12 },
-    "verifyTls": { "type": "checkbox", "label": "Standardprüfung von Zertifikatskette und Hostname (nur ohne Fingerabdruck)", "sm": 12 },
-    "certificateFingerprint": { "type": "text", "label": "SHA-256-Zertifikat-Fingerabdruck (optional, nur unabhängig bestätigt)", "sm": 12 },
-    "fingerprintNotice": { "type": "staticText", "text": "Ein eingetragener Fingerabdruck hat Vorrang und wird unabhängig vom Haken geprüft. Nur einen unabhängig bestätigten Fingerabdruck verwenden. Ohne Fingerabdruck und ohne Haken wird die Identität des Gateways nicht geprüft.", "sm": 12 },
-    "intervalMinutes": { "type": "number", "label": "Abfrageintervall in Minuten (mindestens 15)", "min": 15, "max": 1440, "sm": 6 },
-    "notice": { "type": "staticText", "text": "Für weitere HAN-Zugänge eine zusätzliche Adapter-Instanz anlegen. Messwerte werden alle 15 Minuten aktualisiert.", "sm": 12 }
+    "host": { "type": "text", "label": "Gateway IP or hostname", "xs": 12, "sm": 6, "md": 6, "lg": 6, "xl": 6 },
+    "port": { "type": "number", "label": "HTTPS port", "min": 1, "max": 65535, "xs": 12, "sm": 3, "md": 3, "lg": 3, "xl": 3 },
+    "username": { "type": "text", "label": "HAN username", "xs": 12, "sm": 6, "md": 6, "lg": 6, "xl": 6 },
+    "password": { "type": "password", "label": "HAN password / PIN", "xs": 12, "sm": 6, "md": 6, "lg": 6, "xl": 6 },
+    "m2mPath": { "type": "text", "label": "M2M path (optional, leave blank for default)", "xs": 12, "sm": 12, "md": 12, "lg": 12, "xl": 12 },
+    "verifyTls": { "type": "checkbox", "label": "Standard certificate chain and hostname verification (only without fingerprint)", "xs": 12, "sm": 12, "md": 12, "lg": 12, "xl": 12 },
+    "certificateFingerprint": { "type": "text", "label": "SHA-256 certificate fingerprint (optional, independently verified only)", "xs": 12, "sm": 12, "md": 12, "lg": 12, "xl": 12 },
+    "fingerprintNotice": { "type": "staticText", "text": "A configured fingerprint takes precedence over the checkbox. Use only an independently verified fingerprint. With neither option enabled, the gateway identity is not verified.", "xs": 12, "sm": 12, "md": 12, "lg": 12, "xl": 12 },
+    "intervalMinutes": { "type": "number", "label": "Polling interval in minutes (minimum 15)", "min": 15, "max": 1440, "xs": 12, "sm": 6, "md": 6, "lg": 6, "xl": 6 },
+    "notice": { "type": "staticText", "text": "Create a separate adapter instance for each additional HAN account. Meter readings are updated every 15 minutes.", "xs": 12, "sm": 12, "md": 12, "lg": 12, "xl": 12 }
   }
 }

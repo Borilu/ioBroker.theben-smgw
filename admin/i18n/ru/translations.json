@@ -1,0 +1,12 @@
+{
+  "Gateway IP or hostname": "IP-адрес или имя шлюза",
+  "HTTPS port": "Порт HTTPS",
+  "HAN username": "Имя пользователя HAN",
+  "HAN password / PIN": "Пароль / PIN HAN",
+  "M2M path (optional, leave blank for default)": "Путь M2M (необязательно; пустое значение — путь по умолчанию)",
+  "Standard certificate chain and hostname verification (only without fingerprint)": "Стандартная проверка цепочки сертификатов и имени узла (только без отпечатка)",
+  "SHA-256 certificate fingerprint (optional, independently verified only)": "Отпечаток сертификата SHA-256 (необязательно, только независимо подтверждённый)",
+  "A configured fingerprint takes precedence over the checkbox. Use only an independently verified fingerprint. With neither option enabled, the gateway identity is not verified.": "Указанный отпечаток имеет приоритет над флажком. Используйте только независимо подтверждённый отпечаток. Если оба параметра отключены, подлинность шлюза не проверяется.",
+  "Polling interval in minutes (minimum 15)": "Интервал опроса в минутах (не менее 15)",
+  "Create a separate adapter instance for each additional HAN account. Meter readings are updated every 15 minutes.": "Для каждой дополнительной учётной записи HAN создайте отдельный экземпляр. Показания обновляются каждые 15 минут."
+}
