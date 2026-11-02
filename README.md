@@ -2,7 +2,7 @@
 
 Dieser Adapter liest die lokale HTTPS/M2M-Schnittstelle des Theben CONEXA 3.0. Er ist eine **Testversion**: Die Digest-Anmeldung und die Verarbeitung wurden mit einem lokalen Testserver und einem CONEXA-3.0-Gateway geprüft; andere Installationen können abweichen. Für die Inbetriebnahme muss das Gateway aus der ioBroker-Umgebung erreichbar sein.
 
-Aktuell ist der Adapter als Beta gedacht und noch nicht Teil des offiziellen ioBroker-Adapterverzeichnisses. Eine npm-Betaversion lässt sich nach ihrer Veröffentlichung über den Paketnamen `iobroker.theben-smgw@beta` installieren.
+Aktuell ist der Adapter als Beta gedacht und noch nicht Teil des offiziellen ioBroker-Adapterverzeichnisses. Nach der Veröffentlichung ist das Paket unter `iobroker.theben-smgw` verfügbar.
 
 ## Einrichtung
 
@@ -30,6 +30,10 @@ Die Abfrage erfolgt beim Start und anschließend frühestens 15 Minuten nach Abs
 Node.js ab Version 18, js-controller ab 4 und Admin ab 6. Für den unabhängigen Code-Test im entpackten Adapter-Verzeichnis `node --test test/*.test.js` ausführen. Das Testzertifikat und der Testschlüssel im Ordner `test` dienen nur dem lokalen Testserver und sind keine Zugangsdaten des Gateways.
 
 Die Implementierung orientiert sich an den veröffentlichten Schnittstelleninformationen der [Theben-Conexa-Home-Assistant-Integration](https://www.home-assistant.io/integrations/theben_conexa/) und der [zugehörigen Python-Bibliothek](https://gitlab.com/michael.dluhosch/theben-conexa-smgw). Die Bibliothek liest `scaler` und `unit` über `usage-point-info`; Einheit 30 steht für Wh, 26 für J. Anders als die Bibliothek fragt dieser Adapter alle aktiven Profile ab. Der direkte M2M-Pfad `/smgw/m2m/<HAN-Benutzername>.sm/json` wurde mit einem Gateway getestet; andere Gateway-Konfigurationen wurden nicht geprüft.
+
+## Changelog
+
+- **0.3.0**: First public beta; local M2M readings, multiple instances, clear certificate verification settings, optional certificate pinning and automated tests.
 
 ## English
 

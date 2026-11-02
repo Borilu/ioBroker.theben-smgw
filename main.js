@@ -14,6 +14,10 @@ class ThebenSmgw extends Adapter {
     async ready() {
         await this.setObjectNotExistsAsync('info.connection', { type: 'state', common: { name: 'Gateway verbunden', type: 'boolean', role: 'indicator.connected', read: true, write: false }, native: {} });
         await this.setStateAsync('info.connection', { val: false, ack: true });
+        if (!String(this.config.host || '').trim() || !String(this.config.username || '').trim() || !this.config.password) {
+            this.log.info('Bitte Gateway-Adresse und HAN-Zugang in den Instanzeinstellungen hinterlegen.');
+            return;
+        }
         try {
             this.client = new Client({ host: String(this.config.host || '').trim(), port: Number(this.config.port), username: String(this.config.username || '').trim(), password: this.config.password, m2mPath: this.config.m2mPath, verifyTls: this.config.verifyTls !== false, certificateFingerprint: this.config.certificateFingerprint });
         } catch (error) { this.log.error(error.message); return; }

@@ -1,6 +1,6 @@
 {
   "name": "iobroker.theben-smgw",
-  "version": "0.3.0-beta.0",
+  "version": "0.3.0",
   "description": "Read a Theben CONEXA smart meter gateway locally",
   "author": "Borilu",
   "repository": { "type": "git", "url": "https://github.com/Borilu/ioBroker.theben-smgw.git" },
@@ -12,5 +12,10 @@
   "license": "MIT",
   "engines": { "node": ">=18" },
   "dependencies": { "@iobroker/adapter-core": "^3.2.3" },
-  "scripts": { "test": "node --test test/*.test.js" }
+  "devDependencies": { "@iobroker/testing": "^6.3.1" },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "test:package": "mocha test/io-package.cjs --exit",
+    "test:integration": "mocha test/io-integration.cjs --exit --timeout 180000"
+  }
 }
